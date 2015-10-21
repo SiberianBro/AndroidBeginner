@@ -1,0 +1,52 @@
+AutoCompleteTextView представляет еще один элемент, 
+созданный на основе класса TextView, обладающий возможностью автодополнения
+Во-первых, объявим в ресурсе разметке данный элемент:
+
+<AutoCompleteTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/autocomplete_message"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textColor="#ff0000ff"
+    android:completionHint="Введите город"
+    android:completionThreshold="1"/>
+    
+Атрибут android:completionHint позволяет задать надпись,
+которая отображается внизу списка, а свойство android:completionThreshold устанавливает,
+какое количество символов надо ввести, чтобы начало работать автодополнение
+Теперь нам надо объявить массив строк,
+который будет выступать в качестве источника списка для автозаполнения.
+Данный массив мы можем создать всецело в коде java, а можем и привязать его к некоторому ресурсу.
+Итак, добавим в файл res/values/strings.xml массив строк:
+
+<resources>
+    <string name="app_name">MyFirstApp</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string-array name="cities">
+        <item>Moscow</item>
+        <item>Volgograd</item>
+        <item>Saratov</item>
+        <item>Voronezh</item>
+        <item>Samara</item>
+        <item>Tambov</item>
+    </string-array>
+</resources>
+Здесь объявляется массив строк, хранящий названия городов.
+Теперь установим данный ресурс в качестве списка для автозаполнения в коде запускаемого объекта activity:
+
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+....................................................
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+       setContentView(R.layout.activity_main);
+        // Получаем ссылку на элемент AutoCompleteTextView в разметке
+       AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.autocomplete_message);
+       // Получаем массив строк для автозаполнения
+       String[] cities = getResources().getStringArray(R.array.cities);
+       // Создаем адаптер для автозаполнения элемента AutoCompleteTextView 
+       ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, cities);
+       textView.setAdapter(adapter);
+    }
+После ввода в текстовое поле первых двух букв отобразится список с вариантами автодополнения,
+где можно выбрать предпочтительный
