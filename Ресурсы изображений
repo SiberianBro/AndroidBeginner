@@ -1,0 +1,67 @@
+Одним и наиболее распространенным источником ресурсов изображений являются файлы изображений.
+Android поддерживает следующие форматы файлов: .png (предпочтителен), .jpg (приемлем), .gif (нежелателен).
+Начиная с Android 4 также поддерживается формат .webp.
+При добавлении графических файлов в папку res/drawable/ для каждого из них Android создает ресурс Drawable.
+После этого мы можем обратиться к ресурсу следующим образом в коде Java:
+R.drawable.имя_файла
+Или в коде xml:
+@[имя_пакета:]drawable/имя_файла
+Например, у нас в папке res/drawable/ есть файл picture.png.
+Определим это изображение в качестве фонового изображения кнопки в xml-файле:
+<Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/button_send"
+    android:onClick="sendMessage"
+    android:background="@drawable/picture" />
+А извлечь ресурс и управлять им в коде java тогда можно следующим образом:
+Resources res = getResources();
+Drawable drawable = res.getDrawable(R.drawable.picture);
+
+LayerDrawable представляет набор изображений.
+Такой набор задается элементом <layer-list> и включает в себя несколько элементов item, 
+которые собственно и задают отдельные изображения.
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:drawable="@[package:]drawable/drawable_resource"
+        android:id="@[+][package:]id/resource_name"
+        android:top="dimension"
+        android:right="dimension"
+        android:bottom="dimension"
+        android:left="dimension" />
+</layer-list>
+Элемент item принимает следующие атрибуты:
+android:drawable: представляет ссылку на ресурс изображения
+android:id: уникальный идентификатор данного ресурса. Имеет следующую форму:@+id/name.
+android:top: смещение с верхнего края в пикселях
+android:right: смещение справа в пикселях
+android:bottom: смещение снизу в пикселях
+android:left: смещение слева в пикселях
+Допустим, у нас есть несколько изображений андроида android_red.png, android_green.png и android_blue.png. 
+Создадим ресурс, который бы принимал эти изображения и управлял ими.
+Ресурс будет представлять файл layers.xml и будет находиться в папке res/drawable:
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+      <bitmap android:src="@drawable/android_red"
+        android:gravity="center" />
+    </item>
+    <item android:top="10dp" android:left="10dp">
+      <bitmap android:src="@drawable/android_green"
+        android:gravity="center" />
+    </item>
+    <item android:top="20dp" android:left="20dp">
+      <bitmap android:src="@drawable/android_blue"
+        android:gravity="center" />
+    </item>
+</layer-list>
+Здесь при определении ресурсов мы используем элемент <bitmap> внутри элемента item. 
+Это нужно, чтобы избежать масштабирования. Так как по умолчанию все ресурсы изображений масштабируются,
+заполняя все пространство виджета, например, кнопки. 
+И в данном случае для избегания масштабирования мы устанавливаем у атрибута android:gravity значение "center".
+Затем можно использовать ресурс при определении визуального интерфейса:
+<ImageView
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:src="@drawable/layers" />
