@@ -1,0 +1,18 @@
+Иногда приложению требуются разрешения на доступ к определенным ресурсам,
+например, к списку контактов, камере и т.д.
+Чтобы приложение могло работать с тем же списком контактов,
+в файле манифесте необходимо установить соответствующие разрешения. 
+Для установки разрешений применяется элемент <uses-permission>:
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.eugene.intentapp"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.CAMERA" android:maxSdkVersion="21" />
+<!-- остальное содержимое-->
+ 
+</manifest>
+Атрибут android:name устанавливает название разрешения:
+в данном случае на чтение списка контактов и использование камеры. 
+Опционально можно установить максимальную версию sdk посредством атрибута android:maxSdkVersion,
+который принимает номер API.
