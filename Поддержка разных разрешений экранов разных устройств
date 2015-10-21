@@ -1,0 +1,23 @@
+Мир устройств Android очень сильно фрагментирован,
+здесь встречаются как гаджеты с небольшим экраном, так и большие широкоэкранные телевизоры. 
+И бывают случаи, когда надо ограничить использование приложения для определенных разрешений экранов.
+Для этого в файле манифеста определяется элемент <supports-screens>:
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.eugene.intentapp"/>
+     
+    <supports-screens
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="false"
+        android:xlargeScreens="true" />
+<!-- остальное содержимое-->
+</manifest>
+
+Данный элемент применяет четыре атрибута:
+android:largeScreens - экраны с диагональю от 4.5 до 10"
+android:normalScreens - экраны с диагональю от 3 до 4.5"
+android:smallScreens - экраны с меньше 3"
+android:xlargeScreens - экраны с диагональю больше 10"
+Если атрибут имеет значение true, то приложение будет поддерживаться соответствующим размером экрана
