@@ -1,0 +1,37 @@
+Этот виджет дополняет функциональность элемента AutoCompleteTextView. 
+MultiAutoCompleteTextView позволяет использовать автодополнения не только для одной строки,но и для отдельных слов. 
+Например, если вводится слово и после него ставится запятая,
+то автозаполнение все равно будет работать для вновь вводимых слов после запятой или другого разделителя.
+MultiAutoCompleteTextView имеет такую же форму объявления, как и AutoCompleteTextView:
+
+
+<MultiAutoCompleteTextView xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/autocomplete_message"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:textColor="#ff0000ff" />
+Чтобы включить MultiAutoCompleteTextView в коде, надо установить токен разделителя:
+
+package com.example.eugene.myfirstapp;
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.widget.MultiAutoCompleteTextView;
+import android.widget.ArrayAdapter;
+ 
+public class MainActivity extends ActionBarActivity {
+ 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        // Получаем ссылку на элемент AutoCompleteTextView в разметке
+        MultiAutoCompleteTextView textView = (MultiAutoCompleteTextView) findViewById(R.id.autocomplete_message);
+        String[] cities = getResources().getStringArray(R.array.cities);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, cities);
+        textView.setAdapter(adapter);
+        // установка запятой в качестве разделителя
+        textView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+    }
+}
+Здесь в качестве разделителя используется встроенный разделитель на основе запятой CommaTokenizer(). 
+При необходимости мы можем создать свои разделители.
