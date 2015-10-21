@@ -1,0 +1,12 @@
+С помощью атрибутов элемента manifest можно определить версию приложения и его кода:
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.eugene.intentapp"
+    android:versionName="1.0"
+    android:versionCode="1" />
+     
+<!-- остальное содержимое-->
+ 
+</manifest>
+При желании мы также можем определить версию в ресурсах, а здесь ссылаться на ресурс.
