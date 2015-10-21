@@ -1,0 +1,62 @@
+Элементы Checkbox представляют собой флажки, позволяющие производить множественный выбор из нескольких значений.
+Итак, определим несколько флажков в файле разметки:
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <CheckBox android:id="@+id/checkbox_en"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/english"
+        android:onClick="onCheckboxClicked"/>
+    <CheckBox android:id="@+id/checkbox_ru"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/russian"
+        android:onClick="onCheckboxClicked"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_send"
+        android:onClick="sendMessage"  />
+</LinearLayout>
+
+Атрибут android:onClick как и в случае с простыми кнопками позволяет задать обработчик нажатия на флажок
+
+public void onCheckboxClicked(View view) {
+    // Получаем отмечен ли данный флажок
+    boolean checked = ((CheckBox) view).isChecked();
+    // Смотрим, какой именно из флажков отмечен
+    switch(view.getId()) {
+        case R.id.checkbox_en:
+            if (checked)
+            {}
+            break;
+        case R.id.checkbox_ru:
+            if (checked)
+            {}
+            else
+            {}
+            break;
+    }
+}
+Отдельно для элемента checkbox можно задать обработку изменения состояния. Например, есть checkbpox с id enableBox:
+
+<CheckBox
+    android:id="@+id/enableBox"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/enable"/>
+В коде java подключим обработчик изменения состояния:
+CheckBox enableBox = (CheckBox) findViewById(R.id.enableBox);
+enableBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+            Toast.makeText(getApplicationContext(), "Включено", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Выключено", Toast.LENGTH_SHORT).show();
+        }
+    }
+});
