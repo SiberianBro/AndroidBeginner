@@ -1,0 +1,43 @@
+ToggleButton подобно элементу CheckBox может пребывать в двух состояниях: 
+отмеченном и неотмеченном, причем для каждого состояния мы можем отдельно установить текст:
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <ToggleButton
+        android:id="@+id/toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOn="Включено"
+        android:textOff="Выключено"
+        android:onClick="onToggleClicked"/>
+</LinearLayout>
+Атрибуты android:textOn и android:textOff задают текст кнопки в отмеченном и неотмеченном состоянии соответственно. 
+И также, как и для других кнопок, мы можем обработать нажатие на элемент с помощью события onClick.
+В этом случае определим в классе Activity обработчик события:
+
+public void onToggleClicked(View view) {
+    // включена ли кнопка
+    boolean on = ((ToggleButton) view).isChecked();
+    if (on) {
+        // действия если включена
+    } else {
+        // действия, если выключена
+    }
+}
+И подобно элементу CheckBox мы можем задать обработку изменения состояния в коде java:
+
+ToggleButton toggle = (ToggleButton) findViewById(R.id.toggle);
+toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+             
+            Toast.makeText(getApplicationContext(), "Включено", Toast.LENGTH_SHORT).show();
+        } else {
+             
+            Toast.makeText(getApplicationContext(), "Выключено", Toast.LENGTH_SHORT).show();
+        }
+    }
+});
