@@ -1,0 +1,85 @@
+Схожую с флажками функциональность предоставляют переключатели,
+которые представлены классом RadioButton. Чтобы создать список переключателей для выбора, 
+вначале надо создать объект RadioGroup, который будет включать в себя все переключатели:
+
+<?xml version="1.0" encoding="utf-8"?>
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/radios"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+    <RadioButton android:id="@+id/radio_en"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/english"
+        android:onClick="onRadioButtonClicked"/>
+    <RadioButton android:id="@+id/radio_ru"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/russian"
+        android:checked="true"
+        android:onClick="onRadioButtonClicked"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_send"
+        android:onClick="sendMessage"  />
+</RadioGroup>
+Поскольку класс RadioGroup является производным от LinearLayout,
+то мы также можем задать вертикальную или горизонтальную ориентацию списка,
+при том включив в него не только собственно переключатели, но и другие объекты, например, кнопку.
+Атрибут android:checked позволяет установить выделенный переключатель по умолчанию. 
+То же самое можно было бы сделать в коде, используя метод setChecked, например:
+
+RadioButton rusRadio = (RadioButton)this.findViewById(R.id.radio_ru); 
+rusRadio.setChecked(true); 
+Используя метод addView, можно программным способом добавить в RadioGroup еще один переключатель
+или какой-нибудь другой элемент:
+
+RadioGroup radios = (RadioGroup)findViewById(R.id.radios); 
+RadioButton radio_ge = new RadioButton(this);
+radio_ge.setText("Deutsch");
+radios.addView(radio_ge); 
+С помощью атрибута можно задать слушатель переключения состояния кнопки:
+
+public void onRadioButtonClicked(View view) {
+    // если переключатель отмечен
+    boolean checked = ((RadioButton) view).isChecked();
+    // Получаем нажатый переключатель
+    switch(view.getId()) {
+        case R.id.radio_ru:
+            if (checked)
+            {}
+            break;
+        case R.id.radio_en:
+            if (checked)
+            {}
+            break;
+    }
+}
+Опрос состояния переключателей и их обработку можно сделать и программным способом,
+например, повеcив на объект RadioGroup соответствующий обработчик:
+
+protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+       setContentView(R.layout.activity_hello);
+       // получаем объект RadioGroup
+       RadioGroup radGrp = (RadioGroup)findViewById(R.id.radios); 
+       //Получаем id переключателя
+       int checkedRadioButtonId = radGrp.getCheckedRadioButtonId(); 
+        // обработка переключения состояния переключателя
+       radGrp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() { 
+           @Override
+           public void onCheckedChanged(RadioGroup arg0, int id) { 
+               switch(id) { 
+               case R.id.radio_ru: 
+                 //обработка состояния 
+                   break; 
+               case R.id.radio_en: 
+                   //обработка состояния
+                   break; 
+               default: 
+                   break; 
+               } 
+           }});
+    }
