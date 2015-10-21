@@ -1,0 +1,44 @@
+Цветовые ресурсы также можно задавать с помощью объекта ColorStateList.
+Этот объект позволяет изменять цвет визуального элемента в зависимости от его состояния.
+Данный ресурс располагается в файле с произвольным именем в каталоге проекта res/color и принимает следующий синтаксис:
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:color="hex_color"
+        android:state_pressed=["true" | "false"]
+        android:state_focused=["true" | "false"]
+        android:state_selected=["true" | "false"]
+        android:state_checkable=["true" | "false"]
+        android:state_checked=["true" | "false"]
+        android:state_enabled=["true" | "false"]
+        android:state_window_focused=["true" | "false"] />
+</selector>
+Корневым элементом является элемент <selector>. 
+Его обязательный атрибут xmlns:android устанавливает пространство имен "http://schemas.android.com/apk/res/android".
+В качестве дочернего элемента используется элемент item, который определяет некоторый цвет, 
+используемый к определенным состояниям. Этот элемент имеет следующие атрибуты:
+android:color: в качестве значения принимает шестнадцатеричное представление цвета
+android:state_pressed: имеет значение true, если цвет применяется в нажатом состоянии, либо может принимать значение false,
+если ресурс применяется в ненажатом состоянии
+android:state_focused: имеет значение true, если цвет должен применяться при получении объектом фокуса
+android:state_selected: имеет значение true, если цвет должен применяться при выделении объекта
+android:state_checkable: имеет значение true, если цвет должен применяться, когда объект отмечен
+android:state_enabled: имеет значение true, если цвет должен применяться, если объект доступен
+android:state_window_focused: имеет значение true, если цвет должен применяться, когда окно приложения получает фокус.
+
+Допустим, у нас в папке res/color имеется следующий файл ресурсов цветовых состояний именем button_text.xml:
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true"
+          android:color="#ffff0000"/> <!-- кнопка нажата -->
+    <item android:state_focused="true"
+          android:color="#ff0000ff"/> <!-- кнопка получила фокус -->
+    <item android:color="#ff000000"/> <!-- цвет кнопки по умолчанию -->
+</selector>
+Тогда мы можем применить данный ресурс к элементу управления, например, к кнопке:
+<Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/button_send"
+    android:onClick="sendMessage"
+    android:textColor="@color/button_text" />
