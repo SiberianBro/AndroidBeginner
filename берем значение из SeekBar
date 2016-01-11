@@ -1,0 +1,8 @@
+@Override
+        public void onProgressChanged(SeekBar seekBar, int progress,
+         boolean fromUser)
+        {
+             // присваивание currentCustomPercent положения ползунка SeekBar
+             currentCustomPercent = seekBar.getProgress();
+             updateCustom(); // обновление EditTexts про писанных в этом методе
+             } // конец метода onProgressChanged
