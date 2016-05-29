@@ -1,0 +1,14 @@
+//Создание транзакции начинается с получения объекта транзакции от диспетчера фрагментов
+MyFragment myfragment = new MyFragment; //Создаем объект класса того фрагмента в котором будут изменения
+FragmentTransaction transaction = getFragmentManager().beginTransaction(); /начало транзакции фрагмента, после нее идут все действия
+transaction.replace(R.id.fragment_container, myFragment); /Замена фрагмента, содержащегося в контейнере фреймлейаута(1 аргумент) на указанный фрагмент (2 аргумент)
+transaction.add(R.id.fragment_container, myFragment); /Добавление фрагмента в контейнер
+transaction.remove(myFragment); /Удаление фрагмента
+transaction.setTransition(transition); /Определяем анимацию перехода при транзакции
+/transition - тип анимации, его значения: фрагмент удаляется из стека - TRANSIT_FRAGMENT_CLOSE, 
+/TRANSIT_FRAGMENT_OPEN - фрагмент добавляется
+/TRANSIT_FRAGMENT_FADE - фрагмент растворяется или появляется
+/TRANSIT_NONE - анимация отсутствует
+transaction.addToBackStack(null);/после всех необходимых действий в рамках транзакции установленный фрагмент закрепляется в стеке, 
+чтобы пользователям можно было использовать кнопку бэк для возврата к предыдущему состоянию
+transaction.commit(); /Завершающая строка, закрепляет изменения в активности
