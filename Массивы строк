@@ -1,0 +1,7 @@
+Массив строковых значений создается конструкцией следующего вида:
+<string-array name="array">
+<item>string1</item>
+...
+</string-array>
+ Для обращения к string-array в макете используется синтаксис:
+"@array/array_name"
