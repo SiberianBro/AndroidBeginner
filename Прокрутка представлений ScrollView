@@ -1,0 +1,29 @@
+
+Прокручиваемые представления
+Если в макет добавляется большое количество представлений, на устройствах с маленькими экранами могут возникнуть проблемы —
+во многих макетах нет полос прокрутки, которые бы позволяли прокручивать страницу.
+Например, если добавить семь больших кнопок в линейный макет, пользователь не сможет видеть их одновременно.
+Линейные макеты не содержат полос прокрутки. Когда мы попытались включить
+семь кнопок в линейный макет на своем устройстве, эти кнопки не помещались на экране одновременно.
+Чтобы добавить вертикальную полосу прокрутки, заключите существующий макет в элемент <ScrollView>:
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".MainActivity" >
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:paddingBottom="16dp"
+android:paddingLeft="16dp"
+android:paddingRight="16dp"
+android:paddingTop="16dp"
+android:orientation="vertical" >
+...
+</LinearLayout>
+</ScrollView>
+
+Чтобы добавить в макет горизонтальную полосу прокрутки, заключите существующий макет в элемент 
+<HorizontalScrollView>.
+
