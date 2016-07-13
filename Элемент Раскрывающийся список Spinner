@@ -1,0 +1,22 @@
+
+Раскрывающийся список
+Как вы уже видели, раскрывающийся список содержит набор значений,
+из которых пользователь может выбрать только одно.
+
+Определение в XML
+Раскрывающийся список определяется в XML элементом <Spinner>.
+Чтобы добавить в раскрывающийся список статический массив элементов,
+используйте атрибут android:entries и присвойте ему массив строк.
+
+<Spinner
+android:id="@+id/spinner"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:entries="@array/spinner_values" />
+
+Использование в коде активности
+Чтобы получить значение текущего выбранного варианта, используйте метод getSelectedItem()
+и преобразуйте результат к типу String:
+
+Spinner spinner = (Spinner) findViewById(R.id.spinner);
+String string = String.valueOf(spinner.getSelectedItem());
