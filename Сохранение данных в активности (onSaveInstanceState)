@@ -1,0 +1,21 @@
+
+@Override
+public void onSaveInstanceState(Bundle savedInstanceState) {
+savedInstanceState.putInt("seconds", seconds);
+savedInstanceState.putBoolean("running", running);
+}
+метод onCreate() получает один параметр Bundle. 
+Если активность создается с нуля, то этот параметр
+содержит null. Но если активность создается заново, а созданию
+предшествовал вызов onSaveInstanceState(), активности пере-
+дается объект Bundle, использованный в onSaveInstanceState():
+protected void onCreate(Bundle savedInstanceState) {
+...
+}
+Значения из Bundle читаются методами вида
+bundle.get*("name");
+где bundle — имя объекта Bundle, * — тип значения, которое вы
+хотите прочитать, а name — имя из пары «имя/значение», заданной
+на предыдущей странице. Например, для получения из Bundle
+значения seconds типа int используется команда:
+int seconds = bundle.getInt("seconds");
