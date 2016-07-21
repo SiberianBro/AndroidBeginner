@@ -1,0 +1,13 @@
+Передадим данные из активности 1 в активность 2
+//В активности 2 создадим строковую константу, зарезервировав имя переменной в которую передадим данные
+public static final String EXTRA_DRINKNO = "drinkNo";
+//В активности 1 создадим интент для перехода на активность 2 
+Intent intent = new Intent(1Activity.this, 2Activity.class);
+//свяжем значение переменной id из активности 1 с константой, фиксирующей имя переменной активности 2 (пара ключ/значение)
+intent.putExtra(2Activity.EXTRA_DRINKNO, (int) id);
+//запустим активность 2
+startActivity(intent);
+
+//в активности 2  код читает значение EXTRA_DRINKNO из интента, запустившего DrinkActivity:
+int drinkNo = (Integer)getIntent().getExtras().get(EXTRA_DRINKNO);
+//drinkNo может являться индексом, указывающим на элемент в некоем массиве
