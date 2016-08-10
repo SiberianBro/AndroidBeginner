@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:orientation="horizontal"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
+
+<fragment
+class="com.hfad.workout.WorkoutDetailFragment"
+android:id="@+id/detail_frag"
+android:layout_width="match_parent"
+android:layout_height="match_parent" />
+</LinearLayout>
+
+Элемент <fragment> используется для добавления фрагмента в ма-
+кет активности. Чтобы указать, какой именно фрагмент должен ис-
+пользоваться, вы присваиваете атрибуту class полное имя фрагмен-
+та. В нашем примере создается фрагмент WorkoutDetailFragment
+из пакета com.hfad.workout package, поэтому мы используем
+запись
+class="com.hfad.workout.WorkoutDetailFragment"
