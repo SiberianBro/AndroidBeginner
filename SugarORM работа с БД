@@ -1,0 +1,339 @@
+Это очередной урок из серии «Инструменты Андроид Разработчика», и сегодня мы поговорим об ORM.
+ОRM расшифровывается как object-relational mapping,  или объектно-реляционное отображение — подход к работе с базами данных, использующий  концепции объектно-ориентированных языков программирования.   Объектно-реляционное отображение позволяет оперировать объектами в коде, что гораздо удобнее, чем работать с запросами и таблицами.
+В нашем случае  ORM упрощает работу с SQLite в android, так как позволяет сохранять и извлекать записи из базы данных без создания SQL-запросов. Если вы проходили наши уроки по работе с базами данных в андроид, то вы наверное уже оценили, насколько увлекательным занятием является построение SQL-запросов в базу данных. Один неверный знак — и ничего не работает, а найти ошибку бывает не так просто.
+Мы покажем эту технологию на  примере Sugar ORM, который создавался именно для Android.  В комплекте поставляется API, который легко изучить и запомнить. Он может сам создавать необходимые таблицы и содержит простые методы формирования связей по типу «один-с-одним» и «один-со-многими». Также Sugar ORM облегчает операции создания, чтения, обновления и удаления (CRUD) с помощью всего лишь трёх функций: save(),delete() и find() (или findById()).
+
+     Чтобы добавить SugarORM в проект android studio, пропишите эту зависимость в файле сборки модуля app проекта:
+
+build.gradle
+... 
+dependencies {
+   ...
+    compile 'com.github.satyan:sugar:1.4'
+}
+... 
+dependencies {
+   ...
+    compile 'com.github.satyan:sugar:1.4'
+}
+
+    Далее укажите SugarApp в качестве класса вашего приложения в AndroidManifest.xml. Пропишите такие строки в секции  application :
+
+AndroidManifest.xml
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example">
+<application
+        ...
+        android:name="com.orm.SugarApp"> <!--Используйте этот атрибут дословно-->
+
+        <meta-data android:name="DATABASE" android:value="sugar_example.db"/>
+        <meta-data android:name="VERSION" android:value="1"/>
+        <meta-data android:name="QUERY_LOG" android:value="true"/>
+        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.example"/>
+
+        <activity ...>
+            <intent-filter>
+                ...
+            </intent-filter>
+        </activity>
+    </application>
+
+	
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example">
+<application
+        ...
+        android:name="com.orm.SugarApp"> <!--Используйте этот атрибут дословно-->
+ 
+        <meta-data android:name="DATABASE" android:value="sugar_example.db"/>
+        <meta-data android:name="VERSION" android:value="1"/>
+        <meta-data android:name="QUERY_LOG" android:value="true"/>
+        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.example"/>
+ 
+        <activity ...>
+            <intent-filter>
+                ...
+            </intent-filter>
+        </activity>
+    </application>
+
+Теги мета данных являются необязательными и служат для следующих целей:
+Metadata 	Description
+DATABASE 	
+Имя файла базы данных
+VERSION 	
+Версия схемы базы данных.
+QUERY_LOG 	
+Журналы запросов Select.
+DOMAIN_PACKAGE_NAME 	
+Имя пакета, где присутствуют классы БД
+
+    Унаследуйте от класса SugarRecord все классы, которые надо сохранить в базу данных, а Sugar ORM позаботится о создании базы данных:
+
+Contact.java
+import com.orm.SugarRecord;
+
+public class Contact extends SugarRecord{
+
+    String name;
+    String mail;
+
+    //обязательно создайте пустой конструктор 
+    public Contact() {
+    }
+
+    public Contact(String mail, String name) {
+        this.mail = mail;
+        this.name = name;
+    }
+}
+
+import com.orm.SugarRecord;
+ 
+public class Contact extends SugarRecord{
+ 
+    String name;
+    String mail;
+ 
+    //обязательно создайте пустой конструктор 
+    public Contact() {
+    }
+ 
+    public Contact(String mail, String name) {
+        this.mail = mail;
+        this.name = name;
+    }
+}
+
+    Сохранить запись Sugar ORM:
+
+Contact сontact = new Contact("mail", "name")сontact.save();
+	
+Contact сontact = new Contact("mail", "name")сontact.save();
+
+    Извлечь запись Sugar ORM:
+
+Contact сontact = Contact.findById(Contact.class, 1);
+	
+Contact сontact = Contact.findById(Contact.class, 1);
+
+    Обновить запись Sugar ORM:
+
+Contact сontact = Contact.findById(Contact.class, 1);
+сontact.mail = "updated mail here"; // modify the values
+сontact.save(); // updates the previous entry with new values
+	
+Contact сontact = Contact.findById(Contact.class, 1);
+сontact.mail = "updated mail here"; // modify the values
+сontact.save(); // updates the previous entry with new values
+
+    Удалить запись Sugar ORM:
+
+Contact сontact = Contact.findById(Contact.class, 1);
+сontact.delete();
+
+	
+Contact сontact = Contact.findById(Contact.class, 1);
+сontact.delete();
+
+    Массовые операции Sugar ORM:
+
+List<Contact> allContacts = Contact.listAll(Contact.class);
+Contact.deleteAll(Contact.class);
+
+	
+List<Contact> allContacts = Contact.listAll(Contact.class);
+Contact.deleteAll(Contact.class);
+
+Исходный код примера работы с Sugar ORM из  видео:
+Contact.java
+import com.orm.SugarRecord;
+
+public class Contact extends SugarRecord{
+
+    String name;
+    String mail;
+
+    public Contact() {
+    }
+
+    public Contact(String mail, String name) {
+        this.mail = mail;
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "name='" + name + '\'' +
+                ", mail='" + mail + '\'' +
+                '}';
+    }
+}
+
+import com.orm.SugarRecord;
+ 
+public class Contact extends SugarRecord{
+ 
+    String name;
+    String mail;
+ 
+    public Contact() {
+    }
+ 
+    public Contact(String mail, String name) {
+        this.mail = mail;
+        this.name = name;
+    }
+ 
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "name='" + name + '\'' +
+                ", mail='" + mail + '\'' +
+                '}';
+    }
+}
+
+MainActivity.java
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+
+    Button btnAdd, btnRead, btnClear;
+    EditText etName, etEmail;
+    TextView textView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        btnAdd = (Button) findViewById(R.id.btnAdd);
+        btnAdd.setOnClickListener(this);
+
+        btnRead = (Button) findViewById(R.id.btnRead);
+        btnRead.setOnClickListener(this);
+
+        btnClear = (Button) findViewById(R.id.btnClear);
+        btnClear.setOnClickListener(this);
+
+        etName = (EditText) findViewById(R.id.etName);
+        etEmail = (EditText) findViewById(R.id.etEmail);
+
+        textView = (TextView) findViewById(R.id.textView);
+
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        String name = etName.getText().toString();
+        String mail = etEmail.getText().toString();
+
+
+        switch (v.getId()) {
+
+            case R.id.btnAdd:
+
+                Contact contact = new Contact(mail, name);
+                contact.save();
+
+                break;
+
+            case R.id.btnRead:
+
+                List<Contact> allContacts = Contact.listAll(Contact.class);
+
+                textView.setText(allContacts.toString());
+
+                break;
+
+            case R.id.btnClear:
+
+                Contact.deleteAll(Contact.class);
+
+                break;
+        }
+
+    }
+}
+
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+ 
+import java.util.List;
+ 
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+ 
+    Button btnAdd, btnRead, btnClear;
+    EditText etName, etEmail;
+    TextView textView;
+ 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+ 
+        btnAdd = (Button) findViewById(R.id.btnAdd);
+        btnAdd.setOnClickListener(this);
+ 
+        btnRead = (Button) findViewById(R.id.btnRead);
+        btnRead.setOnClickListener(this);
+ 
+        btnClear = (Button) findViewById(R.id.btnClear);
+        btnClear.setOnClickListener(this);
+ 
+        etName = (EditText) findViewById(R.id.etName);
+        etEmail = (EditText) findViewById(R.id.etEmail);
+ 
+        textView = (TextView) findViewById(R.id.textView);
+ 
+ 
+    }
+ 
+    @Override
+    public void onClick(View v) {
+        String name = etName.getText().toString();
+        String mail = etEmail.getText().toString();
+ 
+ 
+        switch (v.getId()) {
+ 
+            case R.id.btnAdd:
+ 
+                Contact contact = new Contact(mail, name);
+                contact.save();
+ 
+                break;
+ 
+            case R.id.btnRead:
+ 
+                List<Contact> allContacts = Contact.listAll(Contact.class);
+ 
+                textView.setText(allContacts.toString());
+ 
+     break;
+ 
+            case R.id.btnClear:
+ 
+                Contact.deleteAll(Contact.class);
+ 
+                break;
+        }
+ 
+    }
+}
